@@ -110,4 +110,5 @@ module PowerModelsDistribution
     include("prob/ne.jl")
 
     include("core/export.jl")
+    println("Testing PMD too - SK")
 end
