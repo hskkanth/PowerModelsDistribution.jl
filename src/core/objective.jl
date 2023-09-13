@@ -129,7 +129,7 @@ end
 
 """
     objective_mc_min_fuel_cost_curtailment(pm::AbstractUnbalancedPowerModel)
-Minimize fuel cost and renewables curtailment 
+Minimize fuel cost and renewables curtailment
 """
 function objective_mc_min_fuel_cost_curtailment(pm::AbstractUnbalancedPowerModel, alpha = 100; report::Bool=true)
     model = check_gen_cost_models(pm)
@@ -205,16 +205,14 @@ end
 Network expansion cost minimization objective.
 """
 function objective_ne(pm::AbstractUnbalancedPowerModel; report::Bool=true)
+    n = 1
+    nw_ref = nws(pm)[n]
     return JuMP.@objective(pm.model, Min,
-        sum(
             sum( storage_ne["fixed_cost"] * var(pm, n, :z_expand_ne, i)
-            for (i, storage_ne) in nw_ref[:storage_ne])
-        for (n, nw_ref) in nws(pm)) +
-        sum(
+            for (i, storage_ne) in nw_ref[:storage_ne]) +
             sum( gen_ne["fixed_cost"] * var(pm, n, :z_gen_ne, i)
             for (i, gen_ne) in nw_ref[:gen_ne])
-        for (n, nw_ref) in nws(pm))
-    )
+            )
 end
 
 """

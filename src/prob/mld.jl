@@ -197,7 +197,7 @@ function build_mn_mc_mld_simple(pm::AbstractUnbalancedPowerModel)
     for i in ids(pm, :storage_ne, nw=n_0)
         constraint_round_trip_storage_ne(pm, i, n_0, n_1)
     end
-    
+
     # objective_mc_min_load_setpoint_delta_simple(pm)
     objective_ne(pm)
 end
@@ -313,7 +313,7 @@ function build_mn_mc_mld_multi_scenario(pm::AbstractUnbalancedPowerModel)
             constraint_round_trip_storage_ne(pm, i, n_0, n_1)
         end
     end
-    
+
     # objective_mc_min_load_setpoint_delta_simple(pm)
     objective_ne(pm)
 end
@@ -403,7 +403,7 @@ function build_mn_mc_mld_simple(pm::AbstractUBFModels)
         variable_mc_storage_power_mi(pm; nw=n, relax=true)
         variable_mc_storage_power_mi_on_off_ne(pm; nw=n)
     end
-    
+
     for (n, network) in nws(pm)
         constraint_mc_model_current(pm; nw=n)
 
