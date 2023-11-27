@@ -195,13 +195,13 @@ function _apply_voltage_bounds_math!(data::Dict{String,<:Any}; vm_lb::Union{Real
         for (id, bus) in filter(x->!(x.first in exclude), get(data, "bus", Dict{String,Any}()))
             # vbase = bus_vbases[id]
             if !ismissing(vm_lb)
-                data["bus"][id]["vm_lb"] = fill(vm_lb, length(bus["terminals"]))
-                data["bus"][id]["vm_lb"][any.(bus["grounded"] .== t for t in bus["terminals"])] .= 0.0
+                data["bus"][id]["vmin"] = fill(vm_lb, length(bus["terminals"]))
+                data["bus"][id]["vmin"][any.(bus["grounded"] .== t for t in bus["terminals"])] .= 0.0
             end
 
             if !ismissing(vm_ub)
-                data["bus"][id]["vm_ub"] = fill(vm_ub, length(bus["terminals"]))
-                data["bus"][id]["vm_ub"][any.(bus["grounded"] .== t for t in bus["terminals"])] .= Inf
+                data["bus"][id]["vmax"] = fill(vm_ub, length(bus["terminals"]))
+                data["bus"][id]["vmax"][any.(bus["grounded"] .== t for t in bus["terminals"])] .= Inf
             end
         end
 end

@@ -12,8 +12,8 @@ using SCIP
 using PowerModelsDistribution
 const PMD = PowerModelsDistribution
 
-network_file = "/Users/azamzam/dev/Julia/power-water-expansion/PowerModelsDistribution.jl/test/data/opendss/case3_unbalanced.dss"
-expansion_file = "/Users/azamzam/dev/Julia/power-water-expansion/PowerModelsDistribution.jl/test/data/ne_json/expansion3u.json"
+# network_file = "PowerModelsDistribution.jl/test/data/opendss/case3_unbalanced.dss"
+# expansion_file = "PowerModelsDistribution.jl/test/data/ne_json/expansion3u.json"
 
 data = parse_file(network_file, data_model = DSS)
 expand_mods = parse_file(expansion_file)
@@ -36,7 +36,7 @@ JuMP.@constraint(pm.model, expand_cost <= 100000)
 objective_mc_min_fuel_cost(pm)
 
 ipopt_solver = optimizer_with_attributes(() -> Ipopt.Optimizer())
-juniper_optimizer = optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt_solver, "time_limit"=>600)
+juniper_optimizer = optimizer_with_attributes(Juniper.Optimizer, "nl_solver"=>ipopt_solver)#, "time_limit"=>3000)
 scip_optimizer = optimizer_with_attributes(SCIP.Optimizer, "limits/gap"=>0.05)
 
-res = optimize_model!(pm, optimizer=juniper_optimizer)
+res = optimize_model!(pm, optimizer=scip_optimizer)

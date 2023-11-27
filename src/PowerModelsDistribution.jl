@@ -99,7 +99,7 @@ module PowerModelsDistribution
 
     include("prob/common.jl")
     include("prob/mld.jl")
-    include("prob/mld_water.jl")
+    include("prob/mld_flexible.jl")
     include("prob/opf.jl")
     include("prob/opf_oltc.jl")
     include("prob/opf_capc.jl")

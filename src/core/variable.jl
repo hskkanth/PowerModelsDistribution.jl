@@ -809,7 +809,7 @@ function variable_mc_generator_indicator_ne(pm::AbstractUnbalancedPowerModel; nw
         )
     end
 
-    report && _IM.sol_component_value(pm, pmd_it_sym, nw, :gen_ne, :gen_ne_status, ids(pm, nw, :gen_ne), z_gen_ne) 
+    report && _IM.sol_component_value(pm, pmd_it_sym, nw, :gen_ne, :gen_ne_status, ids(pm, nw, :gen_ne), z_gen_ne)
 end
 
 ""
@@ -849,20 +849,20 @@ function variable_mc_generator_power_real_ne(pm::AbstractUnbalancedPowerModel; n
         ) for i in ids(pm, nw, :gen_ne)
     )
 
-    # if bounded
-    #     for (i,gen_ne) in ref(pm, nw, :gen_ne)
-    #         if haskey(gen_ne, "pmin")
-    #             for (idx,c) in enumerate(connections[i])
-    #                 set_lower_bound(pg_ne[i][c], gen_ne["pmin"][idx])
-    #             end
-    #         end
-    #         if haskey(gen_ne, "pmax")
-    #             for (idx,c) in enumerate(connections[i])
-    #                 set_upper_bound(pg_ne[i][c], gen_ne["pmax"][idx])
-    #             end
-    #         end
-    #     end
-    # end
+    if bounded
+        for (i,gen_ne) in ref(pm, nw, :gen_ne)
+            if haskey(gen_ne, "pmin")
+                for (idx,c) in enumerate(connections[i])
+                    set_lower_bound(pg_ne[i][c], gen_ne["pmin"][idx])
+                end
+            end
+            if haskey(gen_ne, "pmax")
+                for (idx,c) in enumerate(connections[i])
+                    set_upper_bound(pg_ne[i][c], gen_ne["pmax"][idx])
+                end
+            end
+        end
+    end
 
     var(pm, nw)[:pg_ne_bus] = Dict{Int, Any}()
 
@@ -1435,7 +1435,7 @@ function variable_mc_storage_expand_ne(pm::AbstractUnbalancedPowerModel; nw::Int
     end
 
     report && _IM.sol_component_value(pm, pmd_it_sym, nw, :storage_ne, :status_ne, ids(pm, nw, :storage_ne), z_expand_ne)
-    
+
 end
 
 "Create variables for expansion storage status"

@@ -876,7 +876,7 @@ end
 
 function constraint_mc_generator_power_ne(pm::AbstractUnbalancedPowerModel, id::Int; nw::Int=nw_id_default, report::Bool=true, bounded::Bool=true)::Nothing
     generator = ref(pm, nw, :gen_ne, id)
-    bus = ref(pm, nw,:gen_ne, generator["gen_ne_bus"])
+    bus = ref(pm, nw,:bus, generator["gen_ne_bus"])
 
     N = length(generator["connections"])
     pmin = get(generator, "pmin", fill(-Inf, N))
@@ -987,7 +987,7 @@ function constraint_mc_storage_losses_ne(pm::AbstractUnbalancedPowerModel, i::In
     nothing
 end
 
-""" 
+"""
             constraint_mc_storage_ne_power_on_off(
 """
 
@@ -1231,7 +1231,7 @@ function constraint_storage_complementarity_mi_ne(pm::AbstractUnbalancedPowerMod
     nothing
 end
 
-""" 
+"""
     constraint_storage_indication_expand_ne(pm::AbstractUnbalancedPowerModel, i::Int; nw::Int=nw_id_default
 Template function for allow energy storage indicator on only if expansion variable is on
 """
